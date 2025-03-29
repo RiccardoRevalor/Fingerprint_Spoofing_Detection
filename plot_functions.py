@@ -71,26 +71,31 @@ def densityPlots_TR_VAL(xTR, yTR, xVAL, yVAL, title1=None, bins1=None, title2=No
     fig, plots = plt.subplots(nrows=rows, ncols=cols, figsize=(cols*6, rows*4))
     plots = plots.flatten()   #the 2D axes array becomes a 1D array in order to access each ax in a more straighforward way during the loop
 
-    subplot = plots[0]
-    for label in labelColors:
-        sample_with_that_class = xTR[0, yTR == label]
-        subplot.hist(x=sample_with_that_class, color=labelColors[label], alpha= 0.7, density=True, label=f"{classLabels[label]}", edgecolor="black", bins=bins1)
-        subplot.legend()
-        if title1:
-            subplot.set_title(title1)
-        subplot.set_xlabel(xlabel)
-        subplot.set_ylabel("Density")
+    component = 0
+
+    for i in range(0, rows*cols, 2):
+        subplot = plots[i]
+        for label in labelColors:
+            sample_with_that_class = xTR[component, yTR == label]
+            subplot.hist(x=sample_with_that_class, color=labelColors[label], alpha= 0.7, density=True, label=f"{classLabels[label]}", edgecolor="black", bins=bins1)
+            subplot.legend()
+            if title1:
+                subplot.set_title(title1)
+            subplot.set_xlabel(xlabel)
+            subplot.set_ylabel("Density")
 
 
-    subplot = plots[1]
-    for label in labelColors:
-        sample_with_that_class = xVAL[0, yVAL == label]
-        subplot.hist(x=sample_with_that_class, color=labelColors[label], alpha= 0.7, density=True, label=f"{classLabels[label]}", edgecolor="black", bins=bins2)
-        subplot.legend()
-        if title2:
-            subplot.set_title(title2)
-        subplot.set_xlabel(xlabel)
-        subplot.set_ylabel("Density")
+        subplot = plots[i+1]
+        for label in labelColors:
+            sample_with_that_class = xVAL[component, yVAL == label]
+            subplot.hist(x=sample_with_that_class, color=labelColors[label], alpha= 0.7, density=True, label=f"{classLabels[label]}", edgecolor="black", bins=bins2)
+            subplot.legend()
+            if title2:
+                subplot.set_title(title2)
+            subplot.set_xlabel(xlabel)
+            subplot.set_ylabel("Density")
+
+        component +=1
 
     plt.tight_layout(pad=3) #add padding between subplots to distance between eachother
     if title:
