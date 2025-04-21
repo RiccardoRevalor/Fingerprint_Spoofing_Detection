@@ -285,13 +285,14 @@ def plotROC_FPRvsTPR(scores, LVAL):
 
 
 # function to plot the Bayes error plots for a given range of log odds ratios and scores -> BINARY CLASSIFICATION ONLY
-def plotBayesErrorPlots(effPriorLogOdds, scores, LVAL):
+def plotBayesErrorPlots(effPriorLogOdds, scores, LVAL, title="Bayes Error Plots: DCF and min DCF vs Effective Prior Log Odds", xticks=31):
     """
     Plot the Bayes error plots for a given range of log odds ratios and scores.
     Args:
     - logOddsRange: range of log odds ratios -> used to compute the effective Prior
     - scores: log likelihood ratios
     - LVAL: actual labels
+    - title: title of the plot
     """
 
     #effPriorLogOdds will be the x axis of the plot
@@ -321,7 +322,7 @@ def plotBayesErrorPlots(effPriorLogOdds, scores, LVAL):
     plt.figure(figsize=(8, 6))
     plt.plot(xAxis, series0_yAxis, marker='o', linestyle='-', markersize=1, label='DCF', color='red')
     plt.plot(xAxis, series1_yAxis, marker='o', linestyle='-', markersize=1, label='min DCF', color='blue')
-    plt.title("Bayes Error Plots: DCF and min DCF vs Effective Prior Log Odds", pad=20, fontsize=14)
+    plt.title(title, pad=20, fontsize=14)
     plt.xlabel("Effective Prior Log Odds")
     plt.ylim([0, 1.1])
     plt.xlim([min(xAxis), max(xAxis)]) #set the x axis limits to the min and max of the x axis which are the effectivePriorLogOdds
@@ -329,14 +330,61 @@ def plotBayesErrorPlots(effPriorLogOdds, scores, LVAL):
     plt.legend()
 
     # Customize x-axis ticks
-    num_ticks = 31  # Number of ticks to display on the x-axis 
+    num_ticks = xticks  # Number of ticks to display on the x-axis 
+    # Generate evenly spaced ticks, rotate them by 45 degrees and align them to the right to make them more clear
+    plt.xticks(np.linspace(min(xAxis), max(xAxis), num_ticks), rotation=45, ha='right') 
+    plt.show()
+
+
+def plotMisscalibrationError(effPriorLogOdds, scores, LVAL, title="Misscalibration Error vs Effective Prior Log Odds", xticks=31):
+    """
+    Plot the misscalibration error for a given range of log odds ratios and scores.
+    Args:
+    - logOddsRange: range of log odds ratios -> used to compute the effective Prior
+    - scores: log likelihood ratios
+    - LVAL: actual labels
+    - title: title of the plot
+    """
+
+    #effPriorLogOdds will be the x axis of the plot
+    xAxis = effPriorLogOdds
+    #the plot will have two series: one for the DCF and the other for the min DCF -> they will be on the y axis
+    #(ofc the are *normalized*)
+    series0_yAxis = [] #y axis for the DCF
+
+    #computeEmpiricalBayesRisk_Normalized(llrs, LVAL, PriorTrue, Cfn, Cfp):
+
+    for tildeP in effPriorLogOdds:
+
+        #compute the effective Prior from tildeP
+        effectivePrior = 1 / (1 + np.exp(-tildeP))
+
+        # compute DCF
+        DCF = computeEmpiricalBayesRisk_Normalized(scores, LVAL, effectivePrior, 1, 1)
+        # compute min DCF
+        minDCF = computeMinEmpiricalBayesRisk_Normalized(scores, LVAL, effectivePrior, 1, 1)
+
+        series0_yAxis.append(DCF - minDCF) #append the misscalibration error to the y axis
+
+    # Plot the results
+    plt.figure(figsize=(8, 6))
+    plt.plot(xAxis, series0_yAxis, marker='o', linestyle='-', markersize=1, label='Misscalibration Error', color='red')
+    plt.title(title, pad=20, fontsize=14)
+    plt.xlabel("Effective Prior Log Odds")
+    #plt.ylim([0, max(series0_yAxis) + ((max(series0_yAxis) - min(series0_yAxis)) / 4)]) #set the y axis limits to the min and max of the y axis which are the misscalibration error
+    plt.xlim([min(xAxis), max(xAxis)]) #set the x axis limits to the min and max of the x axis which are the effectivePriorLogOdds
+    plt.grid(True)
+    plt.legend()
+
+    # Customize x-axis ticks
+    num_ticks = xticks  # Number of ticks to display on the x-axis 
     # Generate evenly spaced ticks, rotate them by 45 degrees and align them to the right to make them more clear
     plt.xticks(np.linspace(min(xAxis), max(xAxis), num_ticks), rotation=45, ha='right') 
     plt.show()
 
 
 # function to plot the Bayes error plots for different models to compare them-> BINARY CLASSIFICATION ONLY
-def plotBayesErrorPlotsMoreModels(models):
+def plotBayesErrorPlotsMoreModels(models, title = "Bayes Error Plots: DCF and min DCF vs Effective Prior Log Odds", xticks=31):
     """
     Plot the Bayes error plots for a given range of log odds ratios and scores.
     Args:
@@ -377,7 +425,7 @@ def plotBayesErrorPlotsMoreModels(models):
         plt.plot(xAxis, series0_yAxis, marker='o', linestyle='-', markersize=1, label=f'DCF ({model_name})')
         plt.plot(xAxis, series1_yAxis, marker='o', linestyle='-', markersize=1, label=f'min DCF ({model_name})')
 
-    plt.title("Bayes Error Plots: DCF and min DCF vs Effective Prior Log Odds", pad=20, fontsize=14)
+    plt.title(title, pad=20, fontsize=14)
     plt.xlabel("Effective Prior Log Odds")
     plt.ylim([0, 1.1])
     plt.xlim([min(xAxis), max(xAxis)]) # set the x axis limits to the min and max of the x axis
@@ -385,7 +433,7 @@ def plotBayesErrorPlotsMoreModels(models):
     plt.legend()
 
     # Customize x-axis ticks
-    num_ticks = 31 # Number of ticks to display on the x-axis
+    num_ticks = xticks # Number of ticks to display on the x-axis
     # Generate evenly spaced ticks, rotate them by 45 degrees and align them to the right
     plt.xticks(np.linspace(min(xAxis), max(xAxis), num_ticks), rotation=45, ha='right')
     plt.tight_layout()
