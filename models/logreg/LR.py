@@ -339,7 +339,7 @@ def trainLogReg_PriorWeighted(DTR, LTR, l, manual_grad=True, PriorTrue=0.5):
 
 
 #4. PRIOR WEIGHTED LOGISTIC REGRESSION - PREDICT
-def fitLogReg_PriorWeighted(DTR, LTR, DVAL, LVAL, lambdas, PriorTrue=0.5):
+def fitLogReg_PriorWeighted(DTR, LTR, DVAL, LVAL, lambdas, PriorTrue=0.5, manual_grad=True):
     """
     Train a logistic regression classifier using LTR as labels and DTR as data.
     lambdas is a list of regularization parameters (lambda).
@@ -358,7 +358,7 @@ def fitLogReg_PriorWeighted(DTR, LTR, DVAL, LVAL, lambdas, PriorTrue=0.5):
     parameters_l = {} #key: lambda, value: (w_min, b_min)
     objMin_l = {} #key: lambda, value: (objMin)
     for l in lambdas:
-        w_min, b_min, objMin = trainLogReg_PriorWeighted(DTR, LTR, l, True, PriorTrue)
+        w_min, b_min, objMin = trainLogReg_PriorWeighted(DTR, LTR, l, manual_grad, PriorTrue)
         parameters_l[l] = (w_min, b_min)
         objMin_l[l] = objMin
         
@@ -398,7 +398,7 @@ def fitLogReg_PriorWeighted(DTR, LTR, DVAL, LVAL, lambdas, PriorTrue=0.5):
     llr_like_scores_l = {} #key: lambda, value: (s_llr)
     for l in lambdas:
         score = scores_l[l]
-        #subtract empirical prior log odds
+        #subtract application prior log odds
         s_llr = score - np.log(PriorTrue / (1- PriorTrue)) #the same as s_llr = score - np.log(pi_emp_h1 / (1- pi_emp_h1))
         llr_like_scores_l[l] = s_llr #store the log likelihood ratio scores for each lambda
 
@@ -446,6 +446,9 @@ def fitLogReg_PriorWeighted(DTR, LTR, DVAL, LVAL, lambdas, PriorTrue=0.5):
     table.set_fontsize(10)
     table.scale(1, 1.5)
 
-    plt.title("Logistic Regression Performance")
+    plt.title("Logistic Regression Performance", pad=20)
     plt.tight_layout()
     plt.show()
+
+    #return the parameters, error rates, min_dcf, dcf
+    return parameters_l, err_l, min_dcf_l, dcf_l, objMin_l
