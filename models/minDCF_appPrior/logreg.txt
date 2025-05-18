@@ -1,0 +1,1 @@
+Application 1 (Effective Prior: 0.1), DCF non weighted binary L.R.: 0.8501984126984127, min DCF non weighted binary L.R.: 0.36411930363543266, DCF weighted binary L.R.: 0.9146825396825398, min DCF weighted binary L.R.: 0.36383128520225294, DCF quadratic non weighted binary L.R.: 0.7519841269841271, min DCF quadratic non weighted binary L.R.: 0.24575972862263185
