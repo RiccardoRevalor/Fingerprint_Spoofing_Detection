@@ -113,7 +113,7 @@ def logpdf_GAU_ND(X, mu, C):
     #Compute X centered using broadcasting 
     X_centered = X - mu #Shape (M, N)
 
-    #print(f"Shape of X_centered: {X_centered.shape}")
+    #print(f"Shape of X_centered: {X_centered.shape}")s
   
     
     #I can obtain the same final shape of (N, N) by doing like this:
@@ -127,7 +127,6 @@ def logpdf_GAU_ND(X, mu, C):
     #print(f"Shape of quadratic_terms: {quadratic_terms.shape}")
 
     return (-0.5 * (M * np.log(2*np.pi) + C_logDet + quadratic_terms))
-
 
 
 def plotPdf_compute(XPlot, m, C, plot_hist_Xplot=False, plot_hist_Xplot_bins=50):
