@@ -219,7 +219,7 @@ def fit_SVM_Kernel_SoftMargin(DTR, LTR, DVAL, LVAL, C, kernel, K = 1, appPriorTr
     DCF = computeEmpiricalBayesRisk_Normalized(scores, LVAL, appPriorTrue, 1.0, 1.0)
 
 
-    return bestAlpha_hat, minDCF, DCF, errorRate, primal_loss, optimal_loss, dualitygap
+    return bestAlpha_hat, minDCF, DCF, errorRate, primal_loss, optimal_loss, dualitygap, scores
 
 
     

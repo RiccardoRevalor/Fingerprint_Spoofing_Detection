@@ -218,7 +218,7 @@ def fitLogReg(DTR, LTR, DVAL, LVAL, lambdas, PriorTrue = 0.5, manual_grad=True):
 
 
     #return the parameters, error rates, min_dcf, dcf
-    return parameters_l, err_l, min_dcf_l, dcf_l, objMin_l
+    return parameters_l, err_l, min_dcf_l, dcf_l, objMin_l, llr_like_scores_l
 
 
 #---------------------------------------------------------------------------------------------------------------------------------
@@ -451,4 +451,4 @@ def fitLogReg_PriorWeighted(DTR, LTR, DVAL, LVAL, lambdas, PriorTrue=0.5, manual
     plt.show()
 
     #return the parameters, error rates, min_dcf, dcf
-    return parameters_l, err_l, min_dcf_l, dcf_l, objMin_l
+    return parameters_l, err_l, min_dcf_l, dcf_l, objMin_l, llr_like_scores_l
