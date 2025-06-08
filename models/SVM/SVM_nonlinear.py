@@ -24,9 +24,9 @@ def get_poly_kernel_function(d, c):
     return poly_kernel
 
 
-def get_rbf_kernel_function(sigma):
+def get_rbf_kernel_function(gamma):
     """
-    :param sigma: standard deviation of the Gaussian kernel.
+    :param gamma: standard deviation of the Gaussian kernel.
     """
 
     def rbf_kernel(xi, xj):
@@ -69,7 +69,7 @@ def get_rbf_kernel_function(sigma):
         #(N, 1) + (1, N) = (N, N)
         #(N, N) - (N, N) = (N, N) OK!
         squaredNormDistance = vcol(np.linalg.norm(xi, axis=0)**2) + vrow(np.linalg.norm(xj, axis=0)**2) - 2 * (xi.T @ xj)
-        k = np.exp(-1 * sigma * squaredNormDistance)
+        k = np.exp(-1 * gamma * squaredNormDistance)
         return k
     
     
