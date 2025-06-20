@@ -1,0 +1,13 @@
+lab GGM considerazioni:
+MVG migliore come Error Rate, poi NB, poi Tied
+Modelli su 4 features su 6 -> peggiorano, perchè le ultime due aggiungo info
+Modelli su features 0,1  che hanno medie simili -> malissimo
+Modelli su features 2,3 con media molto diverse -> buoni
+La separabilità dele classi dipende molto di più dalle medie che dalle covarianze
+PCA non migliora la situa, anzi, diminuendo m peggiorano le performance
+
+lab minDCF considerazioni:
+se hai app con uguale eff prior, sono nlo stesso modello, ed avranno stessa actCF e minDCF
+Tied -> il peggiore sia per actDCF sia per minDCF
+NB e MVG hanno minDCF e actDCF molto simili per un buon range di app (negative app prior log odds da -4 a +4)
+tutti i modelli hanno buona calibrazione tra -1 e +1.5 (fascia centrale)

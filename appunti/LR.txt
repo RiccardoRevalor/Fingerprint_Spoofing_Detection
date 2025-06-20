@@ -1,0 +1,10 @@
+non weighted LR -> per lambda < 10^{-2}, quindi lambda basso, è abbastanza calibrato, per lambda medio (fino a 1), il missaclib error aumenta quasi 
+espoennzialmente, poi raggiune plateau
+tra data centered e non centered non cambia nulla
+in generale se lambda è molto basso, rischio di overfitting è molto alto. Solo che sta cosa si vede bene solo nel caso 1-out-of50, negli altri casi lo scongiuriamo avendno molti campioni
+per lambda molto alto, hai underfitting, modello non confident
+
+prior-weighted L.R.: ci ha stupito il fatto che non porti a significativi miglioramenti, considerando che la emp è 0.5 e noi imponiamo la nostra di 0.1
+
+Quadratic L.R.: per lambda molto basse è molto buona, migliore di quelle linear. Però la minDCF è per valori di lambda più alti, a cui corrisponde per ora una actDCF non buona
+Questo è risolto con la calibration (utimo lab)

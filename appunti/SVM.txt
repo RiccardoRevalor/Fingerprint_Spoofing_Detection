@@ -1,0 +1,15 @@
+uncentered e centered sono sempre uguali le performances
+
+ricorda questo:
+nell'SVM linear abbiamo fatto il confronto con la L.R. e abbiamo considerato lambda = 1 / (nC)
+quindi per lambda alte in L.R. ho C bassi in linear SVM
+per C bassi -> alta regolarizzazione , per C alti -> bassa regolarizzazione
+SVM linear:
+per C bassi -> performance non buone.
+Per C alti -> calibrazione aumenta
+
+SVM Poly 2d -> superfici di separazione bidimensionali. on average, il misscalibration error diminuisce rispetto al caso lineare.
+Questo perchè,  alla luce di come sono distribuiti i dati, abbiamo visto che superfici di separazione più complesse sono più efficaci. Questo l'abbiamo provato
+anche nel confronyarec MVG vs TCMVG -> MVG migliore
+
+SVM RBF -> superifici di separazione molto più complesse, è il miglior modello dei tre SVM
