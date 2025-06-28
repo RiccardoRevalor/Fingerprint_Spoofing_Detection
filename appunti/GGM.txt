@@ -1,9 +1,16 @@
 lab GGM considerazioni:
 MVG migliore come Error Rate, poi NB, poi Tied
+MVG migliore di Tied siccome la Tied assumption sembra peggiorare le cose, ed inoltre vista la distribuzione dei dati, una quadratic decision rule
+è migliore di una linear decision rule (visto anche in L.R, SVM....)
 Modelli su 4 features su 6 -> peggiorano, perchè le ultime due aggiungo info
 Modelli su features 0,1  che hanno medie simili -> malissimo
 Modelli su features 2,3 con media molto diverse -> buoni
-La separabilità dele classi dipende molto di più dalle medie che dalle covarianze
+Questo perchè, se le medie sono simili, le distanze di Mahalanobis nel llr (sostituendo direttamente la formula della Gaussian pdf) diventa quasi zero,
+quindi il modello è molto più indeciso. Al contrario, per le features con varianze simili e medie diverse le distanze di Mahalanobis sono sempre in modulo
+>>>> 0.
+La separabilità dele classi dipende molto di più dalle medie che dalle covarianze (-> se medie uguali, separabilità poca)
+This again confirms that, in both MVG and Tied MVG models, **the separability of the classes heavily depends on the distance between the means of the features**, 
+more than on the variance structure, unless the variance is highly informative or strongly different
 PCA non migliora la situa, anzi, diminuendo m peggiorano le performance
 
 lab minDCF considerazioni:

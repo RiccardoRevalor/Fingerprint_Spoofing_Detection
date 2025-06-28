@@ -1,0 +1,63 @@
+CALIBRAZIONE:
+1) Per ognuno dei tre modelli selezionati (SVM LR GMM con tutti i loro iperparametri migliori selezionati nei lab precedenti ) io seleziono un array di diverse prior di training della weighted L.R. (che è il modello di calibrazione)
+Poi,  ciclo su ste priors e dentro al ciclo esterno ho un ciclo interno dove applico il K-FOLD.
+All'interno di ogni ciclo interno calcolo i pooled scores e actual DCF
+Alla fine prenderò la prior relativa al actual DCF migliore
+Poi alleno il modello finale con la prior scelta. 
+Infine, se usiamo l'eval aset, noi dobbiamo calcolare gli scores grezzi con SVM/LR/GMM, e li calibriamo col modello finale ottenuto alla riga precedente, ottenendo gli scores calibrati.
+
+FUSION:
+usi come score scalibrati non più un array ma una matrice:
+[score scalibrati LR
+score scalibrati SVM
+score scalibrati GMM]
+
+POI FAI ESATTAMENTE COME PRIMA, cioè: 
+o seleziono un array di diverse prior di training della weighted L.R. (che è il modello di calibrazione)
+Poi,  ciclo su ste priors e dentro al ciclo esterno ho un ciclo interno dove applico il K-FOLD.
+All'interno di ogni ciclo interno calcolo i pooled scores e actual DCF
+Alla fine prenderò la prior relativa al actual DCF migliore
+Poi alleno il modello finale con la prior scelta. 
+Infine, se usiamo l'eval aset, noi dobbiamo calcolare gli scores grezzi con SVM/LR/GMM, e li calibriamo col modello finale ottenuto alla riga precedente, ottenendo gli scores calibrati.
+
+quindi, la CALIBRATION LA FAI 3 VOLTE (1 VOLTA PER MODELLO), LA FUSION LA FAI UNA VOLTA con la matrice di tutti gli scores dei tre modelli!
+
+From the fusion results we can see that all the fusions that we 
+considered performs better than the logistic regression model and the SVM 
+with RBF kernel. We can thou see that the GMM already performed similarly 
+to the fusion models (even better than the fusion models).
+Setting pT for the prior weighted L.R. for the fusion creates the best fused models
+
+
+The GMM is the most stable and well-calibrated model, with very low Mis￾scalibration Loss values in all prior scenarios suggesting that the raw 
+scores are already well aligned with the posterior probabilities.
+
+
+The SVM model shows a strong miscalibration at pT = 0.1 and pT = 0.9, with 
+a Mis-Calibration Loss of 0.128 and 0.272 respectively. This indicates 
+that the scores are not directly interpretable as probabilities, especially 
+in the unbalanced cases.
+
+The quadratic logistic regression (LR) model has an intermediate behavior: it 
+presents a moderate Mis-Calibration Loss at pT = 0.1 (0.014) and pT = 0.9 
+(0.039), but very low at pT = 0.5.
+
+
+Calibration via logistic regression significantly improved the SVM, 
+especially for the extreme prior values. 
+In the case of GMM, calibration had little or no impact, confirming that 
+this model generates well-calibrated scores natively. 
+For the LR model, surprisingly, calibration did not improve the actDCF 
+significantly; in some cases, such as at pT = 0.1, the calibrated value 
+even slightly worsened (from 0.524 to 0.538), suggesting a possible 
+overfitting or instability of the calibration process. 
+
+GMM is naturally well-calibrated, making it suitable for a variety of 
+applications without the need for post-processing. 
+SVM benefits strongly from calibration, especially in cases with unbalanced 
+priors. 
+LR, despite being a probabilistic model, may require more careful 
+calibration, perhaps with regularization or alternative techniques, to 
+avoid post-treatment worsening. 
+
+

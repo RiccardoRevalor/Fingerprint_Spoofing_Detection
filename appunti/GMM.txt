@@ -1,0 +1,11 @@
+modello migliore -> K0 = 1, K1 = 16, minDCF = 0.15
+Notiamo che le migliori combinazioni di K0,K1 sono fortemente asimmetriche, questo ci fa capire che dobbiamo modellare le due classi
+in maniera diversa. La classe zero è più facile da modellare, siccome K0best = 1, mentre la classe 1 è molto più difficile da modellare (16 Gaussiane)
+Questo è in linea con i nostri dati, siccome e osserviamo gli scatter plots delle features 4,5 rispetto alle altre, per classe True sono molto più scattered, with a non Gaussian shape
+and many more clusters , per la classe 0 invece abbiamo una distribuzione più regolare (un unico blob).
+Risultati sorprendenti? uno è portato a pensare, osservando le distrib delle features 4,5, che bastino 2/3 Gaussiane, quando per la classe True ce ne vogliono 16, considerando tutte le features insiemne,
+mentre per la classe False ne basta una. 
+Inoltre, è importante da un lato non oversemplificare la classe True, perchè si rischia underfitting (vedi combinazione K0=1, K1=1 che è tra le peggiori), dall'altro non aggiungere complesssità non necessaria, perchè si rischia overfitting (vedi combiazione K0 = 1, K=32 che è una delle peggiori)
+Invece per la classe False, non bisogna aggiungere complessità non necessaria, aumentando il numero di Gaussiane.
+
+Alla fine abbiamo fatto il Bayer Error Plot del modello migliore per minDCF, vedendo per prior log odds tra -1 e 1 è abbastanza calibrato, poi diventa molto scalibrato

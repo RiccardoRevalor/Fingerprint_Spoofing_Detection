@@ -1,3 +1,10 @@
+SVM decisions are not probabilistic and are not able to account for different class priors and mis￾classification costs. Bayes decisions thus require either a score post-processing step, i.e. score 
+calibration, or cross-validation to select the optimal threshold for a specific application. Below we 
+simply use threshold 0 and compute the corresponding accuracy. Since the SVM scores have no 
+probabilistic interpretation, they may typically show significant miscalibration, especially when the 
+application prior is far from the empirical training set prior. 
+The smaller the duality gap, the more precise is the dual (and thus the primal) solution.
+
 uncentered e centered sono sempre uguali le performances
 
 ricorda questo:
@@ -5,11 +12,21 @@ nell'SVM linear abbiamo fatto il confronto con la L.R. e abbiamo considerato lam
 quindi per lambda alte in L.R. ho C bassi in linear SVM
 per C bassi -> alta regolarizzazione , per C alti -> bassa regolarizzazione
 SVM linear:
-per C bassi -> performance non buone.
+per C bassi -> performance non buone. Addirittura per C molto basse ho actDCF = 1 (modello harmful)
 Per C alti -> calibrazione aumenta
 
-SVM Poly 2d -> superfici di separazione bidimensionali. on average, il misscalibration error diminuisce rispetto al caso lineare.
+SVM Poly 2d -> superfici di separazione quadratiche. on average, il misscalibration error diminuisce rispetto al caso lineare.
+Però comunque anche qua per C bassi ho actDCF molto alto, per C bassi il misscalibration error diminuisce
 Questo perchè,  alla luce di come sono distribuiti i dati, abbiamo visto che superfici di separazione più complesse sono più efficaci. Questo l'abbiamo provato
 anche nel confronyarec MVG vs TCMVG -> MVG migliore
 
-SVM RBF -> superifici di separazione molto più complesse, è il miglior modello dei tre SVM
+SVM RBF -> superifici di separazione molto più complesse, è il miglior modello dei tre SVM.
+minDCF migliore lo sia ha per gamma = e^-1, C = 1. nel minDCF si osserva la solita curva ad U. Per C o troppo grandi o troppo piccoli (quindi
+o troppo poca reg o troppa reg) il minDCF aumenta. L'act DCF scende all'aumentare di C.
+
+Additionally, other non-linear models (e.g., quadratic logistic 
+regression, quadratic SVM) also show strong performance, reinforcing the 
+idea that non-linearity is an important characteristic of this dataset. 
+However, the RBF kernel further improves performance, suggesting it 
+captures local variations or finer-grained structures in the data better 
+than global polynomial approaches.
